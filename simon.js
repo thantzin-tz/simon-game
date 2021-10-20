@@ -18,6 +18,7 @@ $("#start").click(function() {
       nextSequence();
       started = true;
       animatePress("start");
+      $("#game-title").text("Welcome from Simon Game 🎮");
     }
   });
 
@@ -47,22 +48,30 @@ function nextSequence() {
 }
 
 $(".btn").click(function (){
+    if(started){
+        // let userChosenColour = this.id;
+        /// get Attributes
+        let userChosenColour = $(this).attr("id");
+
+        userClickedPattern.push(userChosenColour);
+        //console.log(userClickedPattern);
+
+        /// animate button
+        animatePress(userChosenColour);
+
+        /// Play audio 
+        playSound(userChosenColour);
     
-    // let userChosenColour = this.id;
-    /// get Attributes
-    let userChosenColour = $(this).attr("id");
-
-    userClickedPattern.push(userChosenColour);
-    //console.log(userClickedPattern);
-
-    /// animate button
-    animatePress(userChosenColour);
-
-    /// Play audio 
-    playSound(userChosenColour);
-    
-    // to chkect user click
-    checkAnswer(userClickedPattern.length-1);
+        // to chkect user click
+        checkAnswer(userClickedPattern.length-1);
+    }else {
+        playSound("wrong");
+        $("body").addClass("game-over");
+        setTimeout(() => {
+            $("body").removeClass("game-over");
+        }, 200);
+        $("#game-title").text("Please, click START button!!")
+    }
 
 });
 // setInterval(nextSequence,1000);
